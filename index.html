@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LB6</title>
+</head>
+<body style="text-align: center;">
+    <script>
+        //Завдання №1
+        function createProduct(obj, callback){
+            obj.id = Date.now();
+
+            callback(obj);
+        }
+
+        function logProduct(product){
+            console.log('Product:', product);
+        }
+
+        function logTotalPrice(product){
+            if(product.price && product.quantity){
+                const totalPrice = product.price * product.quantity;
+                console.log(`Total price for ${product.name}: $${totalPrice}`);
+            }
+            else {
+                console.log(`There is no price/quantity defined`);
+            }
+        }
+
+        const Product1 = {
+            name: 'Laptop',
+            price: 1000,
+            quantity: 2
+        };
+
+        createProduct(Product1, logProduct);
+        createProduct(Product1, logTotalPrice);
+
+        //Завдання №3
+        const medicines = {
+        Агалгін: new Date("2022-05-01"),
+        Ношпа: new Date("2025-07-02"),
+        Альфахолін: new Date("2024-12-21"),
+        Аспірин: new Date("2022-08-15"),
+        Аспаркам: new Date("2024-04-18"),
+        };
+
+        const today = new Date();
+
+        const validMedicines = Object.entries(medicines)
+        .filter(([name, expiryDate]) => expiryDate > today)
+        .sort(([, expiryDateA], [, expiryDateB]) => expiryDateA - expiryDateB)
+        .map(([name]) => name);
+
+        console.log(validMedicines);
+
+        //Завдання №5
+        const fruits = [
+        { name: "apple", price: 200 },
+        { name: "orange", price: 300 },
+        { name: "grapes", price: 750 },
+        ];
+
+        const applyDiscountAndAddId = (arr) => {
+            return arr.map((fruit,index) => ({
+                ...fruit,
+                price: fruit.price * 0.8,
+                id: index + 1,
+            }))
+        }
+
+        const updatedFruits = applyDiscountAndAddId(fruits);
+        console.log('Updated fruits:', updatedFruits);
+
+        //Завдання №7
+        class Client {
+            constructor(login, email){
+                this.#login = login;
+                this.#email = email;
+            }
+
+            #login;
+            #email;
+
+            get login(){
+                return this.#login;
+            }
+
+            set login(newLogin){
+                if(newLogin){
+                    this.#login = newLogin;
+                }
+                else {
+                    console.error("Login cannot be empty");
+                }
+            }
+
+            get email(){
+                return this.#email;
+            }
+
+            set email(newEmail){
+                if(newEmail.includes("@")){
+                    this.#email = newEmail;
+                }
+                else{
+                    console.error("Invalid email");
+                }
+            }
+            
+        }
+
+        const client = new Client("user123", "user@example.com");
+
+        console.log(client.login);  
+        console.log(client.email);  
+
+        client.login = "newUser";   
+        console.log(client.login);  
+
+        client.email = "new@example.com"; 
+        console.log(client.email);  
+
+        //Завдання №9
+        const tweets = [
+    { id: "000", likes: 5, tags: ["js", "nodejs"] },
+    { id: "001", likes: 2, tags: ["html", "css"] },
+    { id: "002", likes: 17, tags: ["html", "js", "nodejs"] },
+    { id: "003", likes: 8, tags: ["css", "react"] },
+    { id: "004", likes: 0, tags: ["js", "nodejs", "react"] },
+    ];
+
+    const countTags = (tweets) => {
+        return tweets
+        .flatMap(tweet => tweet.tags)
+        .reduce((acc,tag) => {
+            acc[tag] = (acc[tag] || 0) + 1;
+            return acc;
+        }, {});
+    }
+    const tagCounts = countTags(tweets);
+    console.log(tagCounts);
+
+    //Завдання №10
+    function checkBrackets(str){
+        const stack = [];
+
+        const brackets = {
+            '(': ')',
+            '{': '}',
+            '[': ']'
+        };
+
+        for(let char of str){
+            if(brackets[char]){
+                stack.push(char);
+            }
+            else if(Object.values(brackets).includes(char)){
+            if(stack.length === 0  || brackets[stack.pop()] !== char){
+                return false;
+            }
+        }
+        }
+        return stack.length === 0; 
+    }
+
+    console.log(checkBrackets("function someFn() { return [1, 2, 3]; }")); 
+    console.log(checkBrackets("function someFn( { return [1, 2, 3]; }"));  
+    </script>
+    <h1>Лабораторна робота №6</h1>
+    <h2>Аралова Марія ІС-32</h2>
+</body>
+</html>
